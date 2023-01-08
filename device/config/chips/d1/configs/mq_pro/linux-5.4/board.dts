@@ -166,6 +166,13 @@
 		function = "gpio_in";
 	};
 
+	uart1_pins_d: uart1_pins@0 {  /* For leo board */
+		pins = "PD21", "PD22";
+		function = "uart1";
+		drive-strength = <10>;
+		bias-pull-up;
+	};
+
 	uart2_pins_a: uart2_pins@0 {  /* For EVB1 board */
 		pins = "PC0", "PC1";
 		function = "uart2";
@@ -636,6 +643,13 @@
 	max-frequency = <150000000>;
 	ctl-spec-caps = <0x8>;
 	status = "okay";
+
+	tl8723bs: wifi@1 {
+		reg = <1>;
+		// interrupt-parent = <&r_pio>;
+		// interrupts = <0 3 IRQ_TYPE_LEVEL_LOW>; /* PL3 */
+		// interrupt-names = "host-wake";
+	};
 };
 
 
@@ -923,12 +937,29 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 	pinctrl-0 = <&twi0_pins_a>;
 	pinctrl-1 = <&twi0_pins_b>;
 	pinctrl-names = "default", "sleep";
-	status = "disabled";
+	status = "okay";
 
 	eeprom@50 {
 		compatible = "atmel,24c16";
 		reg = <0x50>;
 		status = "disabled";
+	};
+
+	mpu6050@68 {
+		compatible = "invensense,mpu6050";
+		reg = <0x68>;
+		status = "okay";
+		interrupt-parent = <&pio>;
+		interrupts = <2 1 IRQ_TYPE_EDGE_RISING>; // PC1
+		mount-matrix = "-0.984807753012208",  /* x0 */
+		               "0",                   /* y0 */
+		               "-0.173648177666930",  /* z0 */
+		               "0",                   /* x1 */
+		               "-1",                  /* y1 */
+		               "0",                   /* z1 */
+		               "-0.173648177666930",  /* x2 */
+		               "0",                   /* y2 */
+		               "0.984807753012208";   /* z2 */
 	};
 };
 
@@ -1015,7 +1046,7 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 	clock-frequency = <100000000>;
 	pinctrl-0 = <&spi0_pins_a &spi0_pins_b>;
 	pinctrl-1 = <&spi0_pins_c>;
-	pinctrl-names = "default", "sleep";
+	pinctrl-names = "default";
 	/*spi-supply = <&reg_dcdc1>;*/
 	spi_slave_mode = <0>;
 	spi0_cs_number = <1>;
@@ -1053,9 +1084,27 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 		device_type = "spi_board1";
 		compatible = "rohm,dh2228fv";
 		spi-max-frequency = <0x5f5e100>;
-		reg = <0x0>;
+		reg = <0x1>;
 		spi-rx-bus-width = <0x4>;
 		spi-tx-bus-width = <0x4>;
+		status = "disabled";
+	};
+
+	spidev@0 {
+		reg = <0>;
+		compatible = "rohm,dh2228fv";
+		spi-max-frequency = <250000>;
+		spi-cpha;
+		spi-cpol;
+		status = "okay";
+	};
+
+	psxpad@0 {
+		reg = <0>;
+		compatible = "sony,psxpad-spi";
+		spi-max-frequency = <500000>; // 250KHz/500KHz
+		spi-cpha;
+		spi-cpol;
 		status = "disabled";
 	};
 };

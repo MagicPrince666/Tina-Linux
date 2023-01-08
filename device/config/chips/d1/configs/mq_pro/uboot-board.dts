@@ -126,7 +126,26 @@
 	function = "gpio_in";
 };
 
+&spi0 {
+	clock-frequency = <100000000>;
+	pinctrl-0 = <&spi0_pins_a &spi0_pins_b>;
+	pinctrl-1 = <&spi0_pins_c>;
+	pinctrl-names = "default", "sleep";
+	/*spi-supply = <&reg_dcdc1>;*/
+	spi_slave_mode = <0>;
+	spi0_cs_number = <1>;
+	spi0_cs_bitmap = <1>;
+	status = "okay";
 
+	spi-nand@0 {
+		compatible = "spi-nand";
+		spi-max-frequency=<0x5F5E100>;
+		reg = <0x0>;
+		spi-rx-bus-width=<0x01>;
+		spi-tx-bus-width=<0x01>;
+		status="okay";
+	};
+};
 
 &nand0_pins_a {
 	allwinner,pins = "PC0", "PC1", "PC2", "PC5",
