@@ -94,3 +94,5 @@ GTAGS
 /scripts/config/zconf.tab.c
 /scripts/config/zconf.lex.c
 /scripts/config/zconf.hash.c
+d1_mqpro_tfcard.boot
+d1_mqpro_tfcard_boot.img

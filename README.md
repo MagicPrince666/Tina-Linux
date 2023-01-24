@@ -17,9 +17,9 @@ Tina-Linux for F133/T113/D1-H
   $ git submodule update --init --recursive
 
   // download the static file
-  $ wget http://dl.mangopi.org/tina/prebuilt.tar.gz .
+  $ wget http://dl.mangopi.org/tina/prebuilt.tar.gz
   $ tar xzvf prebuilt.tar.gz
-  $ wget http://dl.mangopi.org/tina/dl.tar .
+  $ wget http://dl.mangopi.org/tina/dl.tar
   $ tar xvf dl.tar
   $ wget http://dl.mangopi.org/tina/toolchain/riscv64-linux-x86_64-20200528.tar.xz -P ./lichee/brandy-2.0/tools/toolchain/
   $ wget http://dl.mangopi.org/tina/toolchain/gcc-linaro-7.2.1-2017.11-x86_64_arm-linux-gnueabi.tar.xz -P ./lichee/brandy-2.0/tools/toolchain/
@@ -27,8 +27,10 @@ Tina-Linux for F133/T113/D1-H
 ```
 
 ### Compile
-  $ source build/envsetup.sh
-  $ lunch
+```
+$ source build/envsetup.sh
+$ lunch
+```
 ``` sh
   You're building on Linux
 
