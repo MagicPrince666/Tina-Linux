@@ -12,7 +12,7 @@ Tina-Linux for F133/T113/D1-H
 
 ### SDK download from GitHub
 ``` sh
-  $ git clone  https://github.com/mangopi-sbc/Tina-Linux.git
+  $ git clone  https://github.com/MagicPrince666/Tina-Linux.git
   $ cd Tina-Linux/
   $ git submodule update --init --recursive
 
