@@ -205,7 +205,7 @@ $(eval $(call KernelPackage,net-xr819s))
 define KernelPackage/net-rtl8723ds
   SUBMENU:=$(WIRELESS_MENU)
   TITLE:=RTL8723DS support (staging)
-  DEPENDS:= +r8723ds-firmware +@IPV6 +@USES_REALTEK +@PACKAGE_realtek-rftest +@PACKAGE_rtk_hciattach
+  DEPENDS:= +r8723ds-firmware +@IPV6 +@USES_REALTEK +@PACKAGE_rtk_hciattach
   FILES:=$(LINUX_DIR)/drivers/net/wireless/rtl8723ds/8723ds.ko
   KCONFIG:=\
         CONFIG_RTL8723DS=m \
