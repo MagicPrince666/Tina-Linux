@@ -53,7 +53,7 @@
 		regulator-ramp-delay = <25>;
 		regulator-always-on;
 		regulator-boot-on;
-		status = "okay";
+		status = "disabled";
 	};
 
 	reg_usb1_vbus: usb1-vbus {
@@ -393,14 +393,14 @@
 	};
 
 	spi1_pins_b: spi1@1 {
-		pins = "PD10", "PD14", "PD15";
+		pins = "PD10", "PD15";
 		function = "spi1";
 		drive-strength = <10>;
 		bias-pull-up;   /* cs, hold, wp should be pulled up */
 	};
 
 	spi1_pins_c: spi1@2 {
-		pins = "PD10", "PD11", "PD12", "PD13","PD14", "PD15";
+		pins = "PD10", "PD11", "PD12", "PD13", "PD15";
 		function = "gpio_in";
 		drive-strength = <10>;
 	};
@@ -417,14 +417,27 @@
 	};
 
 	pwm0_pin_a: pwm0@0 {
-		pins = "PD16";
+		pins = "PB5";
 		function = "pwm0";
 		drive-strength = <10>;
 		bias-pull-up;
 	};
 
 	pwm0_pin_b: pwm0@1 {
-		pins = "PD16";
+		pins = "PB5";
+		function = "gpio_in";
+		bias-disable;
+	};
+
+	pwm1_pin_a: pwm1@0 {
+		pins = "PB6";
+		function = "pwm1";
+		drive-strength = <10>;
+		bias-pull-up;
+	};
+
+	pwm1_pin_b: pwm1@1 {
+		pins = "PB6";
 		function = "gpio_in";
 		bias-disable;
 	};
@@ -476,7 +489,6 @@
 		pins = "PD22";
 		function = "gpio_in";
 	};
-
 
 	s_cir0_pins_a: s_cir@0 {
 		pins = "PB7";
@@ -1116,18 +1128,9 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 	pinctrl-0 = <&spi1_pins_a &spi1_pins_b>;
 	pinctrl-1 = <&spi1_pins_c>;
 	pinctrl-names = "default", "sleep";
-	spi_slave_mode = <0>;
-	status = "disabled";
-
-	spi_board1@0 {
-		device_type = "spi_board1";
-		compatible = "rohm,dh2228fv";
-		spi-max-frequency = <0x5f5e100>;
-		reg = <0x1>;
-		spi-rx-bus-width = <0x4>;
-		spi-tx-bus-width = <0x4>;
-		status = "disabled";
-	};
+	spi-num-chipselects = <2>;
+	cs-gpios = <&pio 3 10 GPIO_ACTIVE_HIGH>, <&pio 3 15 GPIO_ACTIVE_HIGH>;
+	status = "okay";
 
 	spidev@0 {
 		reg = <0>;
@@ -1347,7 +1350,14 @@ pull up or pull down(default 0), driver level(default 1), data>
 	pinctrl-names = "active", "sleep";
 	pinctrl-0 = <&pwm0_pin_a>;
 	pinctrl-1 = <&pwm0_pin_b>;
-	status = "okay";
+	status = "disabled";
+};
+
+&pwm1 {
+	pinctrl-names = "active", "sleep";
+	pinctrl-0 = <&pwm1_pin_a>;
+	pinctrl-1 = <&pwm1_pin_b>;
+	status = "disabled";
 };
 
 &pwm2 {
@@ -1375,7 +1385,7 @@ pull up or pull down(default 0), driver level(default 1), data>
 	pinctrl-names = "active", "sleep";
 	pinctrl-0 = <&pwm7_pin_a>;
 	pinctrl-1 = <&pwm7_pin_b>;
-	status = "okay";
+	status = "disabled";
 };
 
 &rtp {
