@@ -96,3 +96,5 @@ GTAGS
 /scripts/config/zconf.hash.c
 d1_mqpro_tfcard.boot
 d1_mqpro_tfcard_boot.img
+prebuilt.tar.gz
+device/config/chips/d1/bin/u-boot-sun20iw1p1.bin
