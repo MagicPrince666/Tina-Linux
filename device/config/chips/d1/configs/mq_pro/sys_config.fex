@@ -31,7 +31,7 @@ nand_use_ubi	= 1
 ;read_mode           =4
 ;flash_size          =16
 ;delay_cycle         =1
-;frequency           =100000000
+;frequency           =50000000
 
 spi_sclk            = port:PC02<2><0><2><default>
 spi_cs              = port:PC03<2><1><2><default>
