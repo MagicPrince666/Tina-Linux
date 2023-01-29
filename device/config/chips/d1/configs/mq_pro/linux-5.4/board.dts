@@ -457,8 +457,8 @@
 	pwm3_pin_a: pwm3@0 {
 		pins = "PB0";
 		function = "pwm3";
-		drive-strength = <10>;
-		bias-pull-up;
+		drive-strength = <20>;
+		bias-pull-down;
 	};
 
 	pwm3_pin_b: pwm3@1 {
@@ -469,8 +469,8 @@
 	pwm4_pin_a: pwm4@0 {
 		pins = "PB1";
 		function = "pwm4";
-		drive-strength = <10>;
-		bias-pull-up;
+		drive-strength = <20>;
+		bias-pull-down;
 	};
 
 	pwm4_pin_b: pwm4@1 {
@@ -1128,14 +1128,24 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 	pinctrl-0 = <&spi1_pins_a &spi1_pins_b>;
 	pinctrl-1 = <&spi1_pins_c>;
 	pinctrl-names = "default", "sleep";
-	spi-num-chipselects = <2>;
-	cs-gpios = <&pio 3 10 GPIO_ACTIVE_HIGH>, <&pio 3 15 GPIO_ACTIVE_HIGH>;
+	spi_slave_mode = <0>;
+	spi1_cs_number = <2>;
+	// cs-gpios = <&pio 3 10 GPIO_ACTIVE_HIGH>, <&pio 3 15 GPIO_ACTIVE_HIGH>;
 	status = "okay";
 
 	spidev@0 {
 		reg = <0>;
 		compatible = "rohm,dh2228fv";
-		spi-max-frequency = <250000>;
+		spi-max-frequency = <100000000>;
+		spi-cpha;
+		spi-cpol;
+		status = "okay";
+	};
+
+	spidev@1 {
+		reg = <1>;
+		compatible = "rohm,dh2228fv";
+		spi-max-frequency = <100000000>;
 		spi-cpha;
 		spi-cpol;
 		status = "okay";
