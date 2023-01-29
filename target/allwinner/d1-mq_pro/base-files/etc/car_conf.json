@@ -1,0 +1,19 @@
+{
+    "chip": "MangoPiMQpro",
+    "moto_ena": 110,
+    "moto_enb": 37,
+    "moto_pwm": {
+        "chip": 0,
+        "channel": 4,
+        "polarity": true,
+        "period": 40000,
+        "dutycycle": 0
+    },
+    "servo_pwm": {
+        "chip": 0,
+        "channel": 3,
+        "polarity": true,
+        "period": 20000000,
+        "dutycycle": 1500000
+    }
+}
