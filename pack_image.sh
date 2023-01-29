@@ -7,7 +7,7 @@ set -ex
 # }
 
 FAT32_BLOCK_SIZE=1024
-FAT32_BLOCKS="20480"
+FAT32_BLOCKS=20480
 
 OUTPUT=d1_mqpro_tfcard_boot.img
 BOOTFS=d1_mqpro_tfcard.boot
@@ -23,14 +23,14 @@ fi
 mkfs.fat $BOOTFS -C $BOOTFSSIZE
 
 out/host/bin/mcopy -i $BOOTFS out/d1-mq_pro/image/env.fex ::env.fex
-out/host/bin/mcopy -i $BOOTFS out/d1-mq_pro/image/sunxi.dtb ::dtb
+out/host/bin/mcopy -i $BOOTFS out/d1-mq_pro/image/sunxi.dtb ::sunxi.dtb
 
-head=4
+head=2
 sect=63
 
 set $(out/host/bin/ptgen -o $OUTPUT -h $head -s $sect -l 1024 -t c -p ${BOOTFSSIZE}M -t 83 -p ${ROOTFSSIZE}M)
 
-BOOTOFFSET="$(($FAT32_BLOCKS / 512))"
+BOOTOFFSET=$FAT32_BLOCKS
 ROOTFSOFFSET="$(($ROOTFSSIZE * 1024))"
 
 dd bs=1024 if="$UBOOT" of="$OUTPUT" seek=8 conv=notrunc
@@ -38,7 +38,7 @@ dd bs=1 if=out/d1-mq_pro/image/u-boot.fex of="$OUTPUT" seek=$((0x1013C00))
 dd bs=1 if=out/d1-mq_pro/image/opensbi.fex of="$OUTPUT" seek=$((0x1004800))
 dd bs=1 if=out/d1-mq_pro/image/boot_package.fex of="$OUTPUT" seek=$((0x1004000))
 
-dd bs=512 if="$BOOTFS" of="$OUTPUT" seek="$BOOTOFFSET" conv=notrunc
+dd bs=1024 if="$BOOTFS" of="$OUTPUT" seek="$BOOTOFFSET" conv=notrunc
 dd bs=1024 if="$ROOTFS" of="$OUTPUT" seek="$ROOTFSOFFSET" conv=notrunc
 
 # dd if=out/d1-mq_pro/image/boot0_sdcard.fex of=d1_mqpro_tfcard_boot.img bs=1K seek=8
