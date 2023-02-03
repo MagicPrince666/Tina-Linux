@@ -199,8 +199,8 @@ uart_debug_tx   = port:PE02<6><1><default><default>
 uart_debug_rx   = port:PE03<6><1><default><default>
 
 ;uart_debug_port = 3
-;uart_debug_tx   = port:PB06<7><1><default><default>
-;uart_debug_rx   = port:PB07<7><1><default><default>
+;uart_debug_tx   = port:PB6<7><1><default><default>
+;uart_debug_rx   = port:PB7<7><1><default><default>
 
 
 ;----------------------------------------------------------------------------------

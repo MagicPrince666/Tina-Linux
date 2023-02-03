@@ -14,6 +14,11 @@
 	aliases {
 		dsp0 = &dsp0;
 		dsp0_gpio_int= &dsp0_gpio_int;
+		serial0 = &uart3;
+	};
+
+	chosen {
+		stdout-path = "serial0:115200n8";
 	};
 
 	dsp0: dsp0 {
@@ -142,17 +147,17 @@
 		function = "clk_fanout1";
 	};
 
-        uart0_pins_a: uart0_pins@0 {  /* For mangopi board */
-                pins = "PE2", "PE3";
-                function = "uart0";
-                drive-strength = <10>;
-                bias-pull-up;
-        };
+	uart0_pins_a: uart0_pins@0 {  /* For mangopi board */
+			pins = "PE2", "PE3";
+			function = "uart0";
+			drive-strength = <10>;
+			bias-pull-up;
+	};
 
-        uart0_pins_b: uart0_pins@1 {  /* For mangopi board */
-                pins = "PE2", "PE3";
-                function = "gpio_in";
-        };
+	uart0_pins_b: uart0_pins@1 {  /* For mangopi board */
+			pins = "PE2", "PE3";
+			function = "gpio_in";
+	};
 
 	uart1_pins_a: uart1_pins@0 {  /* For EVB1 board */
 		pins = "PG6", "PG7", "PG8", "PG9";
@@ -178,12 +183,17 @@
 		function = "gpio_in";
 	};
 
-	uart3_pins_a: uart3_pins@0 {  /* For EVB1 board */
-		pins = "PD10", "PD11";
+	uart3_pins_a: uart3_pins@0 {  /* For mangopi board */
+		pins = "PB6", "PB7";
 		function = "uart3";
-		muxsel = <5>;
+		muxsel = <7>;
 		drive-strength = <10>;
 		bias-pull-up;
+	};
+
+	uart3_pins_b: uart3_pins@0 {  /* For mangopi board */
+		pins = "PB6", "PB7";
+		function = "gpio_in";
 	};
 
 	twi0_pins_a: twi0@0 {
@@ -208,16 +218,16 @@
 		function = "gpio_in";
 	};
 
-        twi2_pins_a: twi2@0 {
-                pins = "PE12", "PE13";
-                function = "twi2";
-                drive-strength = <10>;
-        };
+	twi2_pins_a: twi2@0 {
+			pins = "PE12", "PE13";
+			function = "twi2";
+			drive-strength = <10>;
+	};
 
-        twi2_pins_b: twi2@1 {
-                pins = "PE12", "PE13";
-                function = "gpio_in";
-        };
+	twi2_pins_b: twi2@1 {
+			pins = "PE12", "PE13";
+			function = "gpio_in";
+	};
 
 	twi3_pins_a: twi3@0 {
 		pins = "PE6", "PE7";
@@ -462,22 +472,22 @@
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&uart1_pins_a>;
 	pinctrl-1 = <&uart1_pins_b>;
-	status = "disabled";
+	status = "okay";
 };
 
 &uart2 {
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&uart2_pins_a>;
 	pinctrl-1 = <&uart2_pins_b>;
-	status = "disabled";
+	status = "okay";
 };
 
 &uart3 {
 	compatible = "allwinner,sun20iw1-dsp-uart";
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&uart3_pins_a>;
-	pinctrl-1 = <&uart3_pins_a>;
-	status = "disabled";
+	pinctrl-1 = <&uart3_pins_b>;
+	status = "okay";
 };
 
 &soc {
