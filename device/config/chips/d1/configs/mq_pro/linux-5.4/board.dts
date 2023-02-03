@@ -36,11 +36,9 @@
 
 	rotary: rotary-encoder {
 		compatible = "rotary-encoder";
-		gpios = <
-			&pio 1 11 GPIO_ACTIVE_HIGH /* PB11 */
-			&pio 1 12 GPIO_ACTIVE_HIGH /* PB12 */
-		>;
-		linux,axis = <REL_X>;
+		gpios = <&pio 1 12 GPIO_ACTIVE_HIGH>, <&pio 1 11 GPIO_ACTIVE_HIGH>; //PB11 PB12
+		linux,axis = <0>; /* REL_X */
+		rotary-encoder,encoding = "gray";
 		rotary-encoder,relative-axis;
 	};
 
