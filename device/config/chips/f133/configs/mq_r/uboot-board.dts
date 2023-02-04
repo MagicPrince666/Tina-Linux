@@ -126,8 +126,6 @@
 	function = "gpio_in";
 };
 
-
-
 &nand0_pins_a {
 	allwinner,pins = "PC0", "PC1", "PC2", "PC5",
 			 "PC8", "PC9", "PC10", "PC11",
@@ -396,6 +394,14 @@
 };
 */
 
+&uart0 {
+	status = "okay";
+};
+
+&uart3 {
+	status = "okay";
+};
+
 &aliases {
 	nand0 = &nand0;
 	twi6 = &twi6;
@@ -413,5 +419,5 @@
 	lcd1 = &lcd1;
 	eink = &eink;
 	spi0 = &spi0;
-
+	serial0 = &uart3;
 };
