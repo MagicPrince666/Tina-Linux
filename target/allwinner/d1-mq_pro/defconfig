@@ -3718,8 +3718,8 @@ CONFIG_PACKAGE_dbus=y
 # CONFIG_PACKAGE_dmesg is not set
 CONFIG_PACKAGE_dropbearconvert=y
 # CONFIG_PACKAGE_dump1090 is not set
-# CONFIG_PACKAGE_fbtest is not set
-# CONFIG_PACKAGE_fbviewer is not set
+CONFIG_PACKAGE_fbtest=y
+CONFIG_PACKAGE_fbviewer=y
 # CONFIG_PACKAGE_flock is not set
 # CONFIG_PACKAGE_fontconfig is not set
 # CONFIG_PACKAGE_g2d_demo is not set
