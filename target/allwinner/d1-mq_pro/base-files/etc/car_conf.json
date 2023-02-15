@@ -1,7 +1,17 @@
 {
     "chip": "MangoPiMQpro",
-    "moto_ena": 110,
-    "moto_enb": 37,
+    "bts7960_lis": -1,
+    "bts7960_ris": -1,
+    "moto_ena": 37,
+    "moto_enb": 110,
+    "sbus": "/dev/ttyS1",
+    "gps": "/dev/ttyS2",
+    "i2c": "/dev/i2c-3",
+    "rotary_encoder":{
+        "device": "/dev/input/event0",
+        "reduction_ratio": 34,
+        "precision": 12
+    },
     "moto_pwm": {
         "chip": 0,
         "channel": 4,

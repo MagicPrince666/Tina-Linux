@@ -8,6 +8,7 @@
 
 #include "sun20iw1p1.dtsi"
 #include <dt-bindings/input/input.h>
+#include <dt-bindings/pwm/pwm.h>
 
 /{
 	compatible = "allwinner,d1", "arm,sun20iw1p1", "allwinner,sun20iw1p1";
@@ -30,16 +31,25 @@
 
 	srf04@0 {
 		compatible = "devantech,srf04";
-		trig-gpios = <&pio 1 10 GPIO_ACTIVE_HIGH>; // PB10
-		echo-gpios = <&pio 1 7 GPIO_ACTIVE_HIGH>; // PB7
+		trig-gpios = <&pio 1 6 GPIO_ACTIVE_HIGH>; // PB6
+		echo-gpios = <&pio 1 12 GPIO_ACTIVE_HIGH>; // PB12
 	};
 
 	rotary: rotary-encoder {
 		compatible = "rotary-encoder";
-		gpios = <&pio 1 12 GPIO_ACTIVE_HIGH>, <&pio 1 11 GPIO_ACTIVE_HIGH>; //PB11 PB12
+		gpios = <&pio 6 12 GPIO_ACTIVE_HIGH>, <&pio 1 7 GPIO_ACTIVE_HIGH>; //PG12 PB7
 		linux,axis = <0>; /* REL_X */
 		rotary-encoder,encoding = "gray";
 		rotary-encoder,relative-axis;
+	};
+
+	backlight: backlight {
+		compatible = "pwm-backlight";
+		pwms = <&pwm 2 50000 PWM_POLARITY_INVERTED>;
+		brightness-levels = <0 10 20 30 40 50 60 70 80 90 100>;
+		default-brightness-level = <8>;
+		default-on;
+		status = "okay";
 	};
 
 	reg_vdd_cpu: vdd-cpu {
@@ -246,13 +256,13 @@
 	};
 
 	twi3_pins_a: twi3@0 {
-		pins = "PE6", "PE7";
+		pins = "PE16", "PE17";
 		function = "twi3";
 		drive-strength = <10>;
 	};
 
 	twi3_pins_b: twi3@1 {
-		pins = "PE6", "PE7";
+		pins = "PE16", "PE17";
 		function = "gpio_in";
 	};
 
@@ -441,14 +451,14 @@
 	};
 
 	pwm2_pin_a: pwm2@0 {
-		pins = "PD18";
+		pins = "PB11";
 		function = "pwm2";
 		drive-strength = <10>;
 		bias-pull-up;
 	};
 
 	pwm2_pin_b: pwm2@1 {
-		pins = "PD18";
+		pins = "PB11";
 		function = "gpio_out";
 	};
 
@@ -477,14 +487,14 @@
 	};
 
 	pwm7_pin_a: pwm7@0 {
-		pins = "PD22";
+		pins = "PB10";
 		function = "pwm7";
 		drive-strength = <10>;
 		bias-pull-up;
 	};
 
 	pwm7_pin_b: pwm7@1 {
-		pins = "PD22";
+		pins = "PB10";
 		function = "gpio_in";
 	};
 
@@ -511,6 +521,11 @@
 		pins = "PB0";
 		function = "gpio_in";
 	};
+
+	t_irq_a: t_irq-pins {
+		pins = "PD17";
+		function = "gpio_in";
+	};
 };
 
 &uart0 {
@@ -533,7 +548,7 @@
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&uart2_pins_a>;
 	pinctrl-1 = <&uart2_pins_b>;
-	status = "disabled";
+	status = "okay";
 };
 
 &uart3 {
@@ -944,8 +959,8 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 	usb_port_type = <0x2>;
 	usb_detect_type = <0x1>;
 	usb_detect_mode = <0>;
-	usb_id_gpio = <&pio PB 6 GPIO_ACTIVE_HIGH>;
-	enable-active-high;
+	// usb_id_gpio = <&pio PB 6 GPIO_ACTIVE_HIGH>;
+	// enable-active-high;
 	usb_det_vbus_gpio = <&pio PB 2 GPIO_ACTIVE_HIGH>;
 	usb_wakeup_suspend = <0>;
 	usb_serial_unique = <0>;
@@ -986,30 +1001,7 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 	pinctrl-0 = <&twi0_pins_a>;
 	pinctrl-1 = <&twi0_pins_b>;
 	pinctrl-names = "default", "sleep";
-	status = "okay";
-
-	eeprom@50 {
-		compatible = "atmel,24c16";
-		reg = <0x50>;
-		status = "disabled";
-	};
-
-	mpu6050@68 {
-		compatible = "invensense,mpu6050";
-		reg = <0x68>;
-		status = "okay";
-		interrupt-parent = <&pio>;
-		interrupts = <2 1 IRQ_TYPE_EDGE_RISING>; // PC1
-		mount-matrix = "-0.984807753012208",  /* x0 */
-		               "0",                   /* y0 */
-		               "-0.173648177666930",  /* z0 */
-		               "0",                   /* x1 */
-		               "-1",                  /* y1 */
-		               "0",                   /* z1 */
-		               "-0.173648177666930",  /* x2 */
-		               "0",                   /* y2 */
-		               "0.984807753012208";   /* z2 */
-	};
+	status = "disabled";
 };
 
 &twi1 {
@@ -1076,7 +1068,46 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 	pinctrl-0 = <&twi3_pins_a>;
 	pinctrl-1 = <&twi3_pins_b>;
 	pinctrl-names = "default", "sleep";
-	status = "disabled";
+	status = "okay";
+
+	mpu6050@68 {
+		compatible = "invensense,mpu6050";
+		reg = <0x68>;
+		status = "disabled";
+		interrupt-parent = <&pio>;
+		interrupts = <6 13 IRQ_TYPE_EDGE_RISING>; //PG13
+		orientation = <0xff 0 0 0 1 0 0 0 0xff>;
+	};
+
+	mpu9250: imu@68 {
+		compatible = "invensense,mpu9250";
+		reg = <0x68>;
+		status = "disabled";
+		interrupt-parent = <&pio>;
+		interrupts = <6 13 IRQ_TYPE_EDGE_RISING>; //PG13
+		i2c-gate {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			ax8975@c {
+				compatible = "ak,ak8975";
+				reg = <0x0c>;
+			};
+		};
+	};
+
+	bmp280: pressure@76 {
+		compatible = "bosch,bmp280";
+		reg = <0x76>;
+		status = "okay";
+	};
+
+	vl53l0x@29 {
+		compatible = "st,vl53l0x";
+		reg = <0x29>;
+		interrupt-parent = <&pio>;
+		interrupts = <1 4 IRQ_TYPE_EDGE_FALLING>; //PB4
+		status = "okay";
+	};
 };
 
 &gmac0 {
@@ -1131,31 +1162,39 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 	// cs-gpios = <&pio 3 10 GPIO_ACTIVE_HIGH>, <&pio 3 15 GPIO_ACTIVE_HIGH>;
 	status = "okay";
 
-	spidev@0 {
+	ili9341@0 {
+		compatible = "ilitek,ili9341";
 		reg = <0>;
-		compatible = "rohm,dh2228fv";
-		spi-max-frequency = <100000000>;
-		spi-cpha;
-		spi-cpol;
 		status = "okay";
+		spi-max-frequency = <50000000>;
+		rotate = <270>;
+		bgr;
+		fps = <30>;
+		buswidth = <8>;
+		dc-gpios = <&pio 1 2 GPIO_ACTIVE_HIGH>;//PB2
+		debug = <0>;
+		backlight = <&backlight>;
 	};
 
-	spidev@1 {
-		reg = <1>;
-		compatible = "rohm,dh2228fv";
-		spi-max-frequency = <100000000>;
-		spi-cpha;
-		spi-cpol;
-		status = "okay";
-	};
+	tsc2046@1 {
+		reg = <1>;	/* CS1 */
+		compatible = "ti,tsc2046";
+		pinctrl-names = "default";
+		pinctrl-0 = <&t_irq_a>;
+		interrupt-parent = <&pio>;
+		interrupts = <3 17 IRQ_TYPE_EDGE_FALLING>;	//PD17
+		spi-max-frequency = <2000000>;
+		pendown-gpio = <&pio 3 17 GPIO_ACTIVE_HIGH>;
 
-	psxpad@0 {
-		reg = <0>;
-		compatible = "sony,psxpad-spi";
-		spi-max-frequency = <500000>; // 250KHz/500KHz
-		spi-cpha;
-		spi-cpol;
-		status = "disabled";
+		ti,x-min = /bits/ 16 <0>;
+		ti,x-max = /bits/ 16 <320>;
+		ti,y-min = /bits/ 16 <0>;
+		ti,y-max = /bits/ 16 <240>;
+		ti,x-plate-ohms = /bits/ 16 <40>;
+		ti,pressure-max = /bits/ 16 <255>;
+
+		wakeup-source;
+		status = "okay";
 	};
 };
 
@@ -1393,7 +1432,7 @@ pull up or pull down(default 0), driver level(default 1), data>
 	pinctrl-names = "active", "sleep";
 	pinctrl-0 = <&pwm7_pin_a>;
 	pinctrl-1 = <&pwm7_pin_b>;
-	status = "disabled";
+	status = "okay";
 };
 
 &rtp {
@@ -1453,4 +1492,8 @@ pull up or pull down(default 0), driver level(default 1), data>
 	pinctrl-0 = <&ir1_pins_a>;
 	pinctrl-1 = <&ir1_pins_b>;
 	status = "disabled";
+};
+
+&rtc {
+	status = "okay";
 };
