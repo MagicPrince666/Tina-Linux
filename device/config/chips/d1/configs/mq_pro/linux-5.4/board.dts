@@ -648,17 +648,17 @@
 			/*bt_io_regulator = "axp803-dldo1";*/
 			/*bt_io_vol = <3300000>;*/
 			/*bt_power_vol = <330000>;*/
-			bt_rst_n      = <&pio PG 18 GPIO_ACTIVE_LOW>;
-			status        = "disabled";
+			bt_rst_n      = <&pio 6 15 GPIO_ACTIVE_LOW>;
+			status        = "okay";
 		};
 	};
 
 	btlpm: btlpm@0 {
-		compatible  = "allwinner,sunxi-btlpm";
+		compatible  = "realtek,rtl8723ds-bt";
 		uart_index  = <0x1>;
-		bt_wake     = <&pio PG 16 GPIO_ACTIVE_HIGH>;
-		bt_hostwake = <&pio PG 17 GPIO_ACTIVE_HIGH>;
-		status      = "disabled";
+		bt_wake     = <&pio 6 14 GPIO_ACTIVE_HIGH>;
+		bt_hostwake = <&pio 6 18 GPIO_ACTIVE_HIGH>;
+		status      = "okay";
 	};
 
 	addr_mgt: addr_mgt@0 {
