@@ -29,16 +29,18 @@
 		status = "disabled";
 	};
 
-	srf04@0 {
-		compatible = "devantech,srf04";
-		trig-gpios = <&pio 1 6 GPIO_ACTIVE_HIGH>; // PB6
-		echo-gpios = <&pio 1 12 GPIO_ACTIVE_HIGH>; // PB12
+	rotary1: rotary-encoder {
+		compatible = "rotary-encoder";
+		gpios = <&pio 3 14 GPIO_ACTIVE_HIGH>, <&pio 1 2 GPIO_ACTIVE_HIGH>; //PD14 PB2
+		linux,axis = <0>; /* REL_X */
+		rotary-encoder,encoding = "gray";
+		rotary-encoder,relative-axis;
 	};
 
-	rotary: rotary-encoder {
+	rotary2: rotary-encoder {
 		compatible = "rotary-encoder";
-		gpios = <&pio 6 12 GPIO_ACTIVE_HIGH>, <&pio 1 7 GPIO_ACTIVE_HIGH>; //PG12 PB7
-		linux,axis = <0>; /* REL_X */
+		gpios = <&pio 1 3 GPIO_ACTIVE_HIGH>, <&pio 1 4 GPIO_ACTIVE_HIGH>; //PB3 PB4
+		linux,axis = <1>; /* REL_Y */
 		rotary-encoder,encoding = "gray";
 		rotary-encoder,relative-axis;
 	};
@@ -49,7 +51,7 @@
 		brightness-levels = <0 10 20 30 40 50 60 70 80 90 100>;
 		default-brightness-level = <8>;
 		default-on;
-		status = "okay";
+		status = "disabled";
 	};
 
 	reg_vdd_cpu: vdd-cpu {
@@ -486,15 +488,27 @@
 		function = "gpio_out";
 	};
 
+	pwm5_pin_a: pwm5@0 {
+		pins = "PD21";
+		function = "pwm5";
+		drive-strength = <20>;
+		bias-pull-down;
+	};
+
+	pwm5_pin_b: pwm5@1 {
+		pins = "PD21";
+		function = "gpio_out";
+	};
+
 	pwm7_pin_a: pwm7@0 {
-		pins = "PB10";
+		pins = "PD22";
 		function = "pwm7";
 		drive-strength = <10>;
 		bias-pull-up;
 	};
 
 	pwm7_pin_b: pwm7@1 {
-		pins = "PB10";
+		pins = "PD22";
 		function = "gpio_in";
 	};
 
@@ -523,7 +537,7 @@
 	};
 
 	t_irq_a: t_irq-pins {
-		pins = "PD17";
+		pins = "PB12";
 		function = "gpio_in";
 	};
 };
@@ -537,10 +551,10 @@
 
 &uart1 {
 	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&uart1_pins_a>;
-	pinctrl-1 = <&uart1_pins_b>;
-	// pinctrl-0 = <&uart1_bt_pins_a>;
-	// pinctrl-1 = <&uart1_bt_pins_b>;
+	// pinctrl-0 = <&uart1_pins_a>;
+	// pinctrl-1 = <&uart1_pins_b>;
+	pinctrl-0 = <&uart1_bt_pins_a>;
+	pinctrl-1 = <&uart1_bt_pins_b>;
 	status = "okay";
 };
 
@@ -627,17 +641,17 @@
 			/*bt_io_regulator = "axp803-dldo1";*/
 			/*bt_io_vol = <3300000>;*/
 			/*bt_power_vol = <330000>;*/
-			bt_rst_n      = <&pio PG 18 GPIO_ACTIVE_LOW>;
-			status        = "disabled";
+			bt_rst_n      = <&pio 6 15 GPIO_ACTIVE_LOW>;
+			status        = "okay";
 		};
 	};
 
 	btlpm: btlpm@0 {
-		compatible  = "allwinner,sunxi-btlpm";
+		compatible  = "realtek,rtl8723ds-bt";
 		uart_index  = <0x1>;
-		bt_wake     = <&pio PG 16 GPIO_ACTIVE_HIGH>;
-		bt_hostwake = <&pio PG 17 GPIO_ACTIVE_HIGH>;
-		status      = "disabled";
+		bt_wake     = <&pio 6 14 GPIO_ACTIVE_HIGH>;
+		bt_hostwake = <&pio 6 18 GPIO_ACTIVE_HIGH>;
+		status      = "okay";
 	};
 
 	addr_mgt: addr_mgt@0 {
@@ -1075,16 +1089,16 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 		reg = <0x68>;
 		status = "disabled";
 		interrupt-parent = <&pio>;
-		interrupts = <6 13 IRQ_TYPE_EDGE_RISING>; //PG13
+		interrupts = <3 17 IRQ_TYPE_EDGE_RISING>; //PD17
 		orientation = <0xff 0 0 0 1 0 0 0 0xff>;
 	};
 
 	mpu9250: imu@68 {
 		compatible = "invensense,mpu9250";
 		reg = <0x68>;
-		status = "disabled";
+		status = "okay";
 		interrupt-parent = <&pio>;
-		interrupts = <6 13 IRQ_TYPE_EDGE_RISING>; //PG13
+		interrupts = <3 17 IRQ_TYPE_EDGE_RISING>; //PD17
 		i2c-gate {
 			#address-cells = <1>;
 			#size-cells = <0>;
@@ -1106,7 +1120,7 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 		reg = <0x29>;
 		interrupt-parent = <&pio>;
 		interrupts = <1 4 IRQ_TYPE_EDGE_FALLING>; //PB4
-		status = "okay";
+		status = "disabled";
 	};
 };
 
@@ -1153,9 +1167,11 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 };
 
 &spi1 {
-	pinctrl-0 = <&spi1_pins_a &spi1_pins_b>;
+	pinctrl-0 = <&spi1_pins_a>;
 	pinctrl-1 = <&spi1_pins_c>;
 	pinctrl-names = "default", "sleep";
+	spi_slave_mode = <0>;
+	spi1_cs_number = <2>;
 	spi-num-chipselects = <2>;
 	cs-gpios = <&pio 3 10 GPIO_ACTIVE_HIGH>, <&pio 3 15 GPIO_ACTIVE_HIGH>;
 	status = "okay";
@@ -1163,26 +1179,28 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 	ili9341@0 {
 		compatible = "ilitek,ili9341";
 		reg = <0>;
+		spi1_cs_bitmap = <1>;
 		status = "okay";
 		spi-max-frequency = <50000000>;
 		rotate = <270>;
 		bgr;
 		fps = <30>;
 		buswidth = <8>;
-		dc-gpios = <&pio 1 2 GPIO_ACTIVE_HIGH>;//PB2
+		dc-gpios = <&pio 1 10 GPIO_ACTIVE_HIGH>; // PB10
 		debug = <0>;
-		backlight = <&backlight>;
+		// backlight = <&backlight>;
 	};
 
 	tsc2046@1 {
 		reg = <1>;	/* CS1 */
+		spi1_cs_bitmap = <2>;
 		compatible = "ti,tsc2046";
 		pinctrl-names = "default";
 		pinctrl-0 = <&t_irq_a>;
 		interrupt-parent = <&pio>;
-		interrupts = <3 17 IRQ_TYPE_EDGE_FALLING>;	//PD17
+		interrupts = <1 12 IRQ_TYPE_EDGE_FALLING>;
 		spi-max-frequency = <1000000>;
-		pendown-gpio = <&pio 3 17 GPIO_ACTIVE_HIGH>;
+		pendown-gpio = <&pio 1 12 GPIO_ACTIVE_HIGH>; // PB12
 		ti,x-min = /bits/ 16 <0>;
 		ti,x-max = /bits/ 16 <320>;
 		ti,y-min = /bits/ 16 <0>;
@@ -1421,6 +1439,13 @@ pull up or pull down(default 0), driver level(default 1), data>
 	pinctrl-names = "active", "sleep";
 	pinctrl-0 = <&pwm4_pin_a>;
 	pinctrl-1 = <&pwm4_pin_b>;
+	status = "okay";
+};
+
+&pwm5 {
+	pinctrl-names = "active", "sleep";
+	pinctrl-0 = <&pwm5_pin_a>;
+	pinctrl-1 = <&pwm5_pin_b>;
 	status = "okay";
 };
 
