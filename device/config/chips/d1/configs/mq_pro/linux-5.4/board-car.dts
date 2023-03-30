@@ -31,13 +31,13 @@
 
 	srf04@0 {
 		compatible = "devantech,srf04";
-		trig-gpios = <&pio 1 6 GPIO_ACTIVE_HIGH>; // PB6
-		echo-gpios = <&pio 1 12 GPIO_ACTIVE_HIGH>; // PB12
+		trig-gpios = <&pio PB 6 GPIO_ACTIVE_HIGH>; // PB6
+		echo-gpios = <&pio PB 12 GPIO_ACTIVE_HIGH>; // PB12
 	};
 
 	rotary: rotary-encoder {
 		compatible = "rotary-encoder";
-		gpios = <&pio 6 12 GPIO_ACTIVE_HIGH>, <&pio 1 7 GPIO_ACTIVE_HIGH>; //PG12 PB7
+		gpios = <&pio PG 12 GPIO_ACTIVE_HIGH>, <&pio PB 7 GPIO_ACTIVE_HIGH>; //PG12 PB7
 		linux,axis = <0>; /* REL_X */
 		rotary-encoder,encoding = "gray";
 		rotary-encoder,relative-axis;
@@ -1075,7 +1075,7 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 		reg = <0x68>;
 		status = "disabled";
 		interrupt-parent = <&pio>;
-		interrupts = <6 13 IRQ_TYPE_EDGE_RISING>; //PG13
+		interrupts = <PG 13 IRQ_TYPE_EDGE_RISING>; //PG13
 		orientation = <0xff 0 0 0 1 0 0 0 0xff>;
 	};
 
@@ -1084,7 +1084,7 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 		reg = <0x68>;
 		status = "disabled";
 		interrupt-parent = <&pio>;
-		interrupts = <6 13 IRQ_TYPE_EDGE_RISING>; //PG13
+		interrupts = <PG 13 IRQ_TYPE_EDGE_RISING>; //PG13
 		i2c-gate {
 			#address-cells = <1>;
 			#size-cells = <0>;
@@ -1105,7 +1105,7 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 		compatible = "st,vl53l0x";
 		reg = <0x29>;
 		interrupt-parent = <&pio>;
-		interrupts = <1 4 IRQ_TYPE_EDGE_FALLING>; //PB4
+		interrupts = <PB 4 IRQ_TYPE_EDGE_FALLING>; //PB4
 		status = "okay";
 	};
 };
@@ -1159,7 +1159,7 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 	spi_slave_mode = <0>;
 	spi1_cs_number = <2>;
 	// spi-num-chipselects = <2>;
-	// cs-gpios = <&pio 3 10 GPIO_ACTIVE_HIGH>, <&pio 3 15 GPIO_ACTIVE_HIGH>;
+	// cs-gpios = <&pio PD 10 GPIO_ACTIVE_HIGH>, <&pio PD 15 GPIO_ACTIVE_HIGH>;
 	status = "okay";
 
 	ili9341@0 {
@@ -1171,7 +1171,7 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 		bgr;
 		fps = <30>;
 		buswidth = <8>;
-		dc-gpios = <&pio 1 2 GPIO_ACTIVE_HIGH>;//PB2
+		dc-gpios = <&pio PB 2 GPIO_ACTIVE_HIGH>;//PB2
 		debug = <0>;
 		backlight = <&backlight>;
 	};
@@ -1182,9 +1182,9 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 		pinctrl-names = "default";
 		pinctrl-0 = <&t_irq_a>;
 		interrupt-parent = <&pio>;
-		interrupts = <3 17 IRQ_TYPE_EDGE_FALLING>;	//PD17
+		interrupts = <PD 17 IRQ_TYPE_EDGE_FALLING>;	//PD17
 		spi-max-frequency = <1000000>;
-		pendown-gpio = <&pio 3 17 GPIO_ACTIVE_HIGH>;
+		pendown-gpio = <&pio PD 17 GPIO_ACTIVE_HIGH>;
 		ti,x-min = /bits/ 16 <0>;
 		ti,x-max = /bits/ 16 <320>;
 		ti,y-min = /bits/ 16 <0>;

@@ -29,16 +29,18 @@
 		status = "disabled";
 	};
 
-	srf04@0 {
-		compatible = "devantech,srf04";
-		trig-gpios = <&pio 1 6 GPIO_ACTIVE_HIGH>; // PB6
-		echo-gpios = <&pio 1 12 GPIO_ACTIVE_HIGH>; // PB12
+	rotary1: rotary-encoder {
+		compatible = "rotary-encoder";
+		gpios = <&pio PD 14 GPIO_ACTIVE_HIGH>, <&pio PB 2 GPIO_ACTIVE_HIGH>; //PD14 PB2
+		linux,axis = <0>; /* REL_X */
+		rotary-encoder,encoding = "gray";
+		rotary-encoder,relative-axis;
 	};
 
-	rotary: rotary-encoder {
+	rotary2: rotary-encoder {
 		compatible = "rotary-encoder";
-		gpios = <&pio 6 12 GPIO_ACTIVE_HIGH>, <&pio 1 7 GPIO_ACTIVE_HIGH>; //PG12 PB7
-		linux,axis = <0>; /* REL_X */
+		gpios = <&pio PB 3 GPIO_ACTIVE_HIGH>, <&pio PB 4 GPIO_ACTIVE_HIGH>; //PB3 PB4
+		linux,axis = <1>; /* REL_Y */
 		rotary-encoder,encoding = "gray";
 		rotary-encoder,relative-axis;
 	};
@@ -214,36 +216,6 @@
 		function = "gpio_in";
 	};
 
-	uart3_pins_a: uart3_pins@0 {  /* For EVB1 board */
-		pins = "PD10", "PD11";
-		function = "uart3";
-		muxsel = <5>;
-		drive-strength = <10>;
-		bias-pull-up;
-	};
-
-	twi0_pins_a: twi0@0 {
-		pins = "PG12", "PG13";	/*sck sda MQ pro*/
-		function = "twi0";
-		drive-strength = <10>;
-	};
-
-	twi0_pins_b: twi0@1 {
-		pins = "PG12", "PG13";
-		function = "gpio_in";
-	};
-
-	twi1_pins_a: twi1@0 {
-		pins = "PB4", "PB5";
-		function = "twi1";
-		drive-strength = <10>;
-	};
-
-	twi1_pins_b: twi1@1 {
-		pins = "PB4", "PB5";
-		function = "gpio_in";
-	};
-
 	twi2_pins_a: twi2@0 {
 			pins = "PE12", "PE13";
 			function = "twi2";
@@ -281,95 +253,6 @@
 		       "PE8", "PE9", "PE10", "PE11",
 		       "PE12", "PE13", "PE14", "PE15";
 		function = "gpio_in";
-	};
-
-	dmic_pins_a: dmic@0 {
-		/* DMIC_PIN: CLK, DATA0, DATA1, DATA2, DATA3*/
-		pins = "PB12", "PB11", "PB10", "PE14", "PB8";
-		function = "dmic";
-		drive-strength = <20>;
-		bias-disable;
-	};
-
-	dmic_pins_b: dmic@1 {
-		pins = "PB12", "PB11", "PB10", "PE14", "PB8";
-		function = "io_disabled";
-		drive-strength = <20>;
-		bias-disable;
-	};
-
-	daudio0_pins_a: daudio0@0 {
-		pins = "PE17", "PE16", "PE15", "PE14", "PE13";
-		function = "i2s0";
-		drive-strength = <20>;
-		bias-disable;
-	};
-
-	daudio0_pins_b: daudio0_sleep@0 {
-		pins = "PE17", "PE16", "PE15", "PE14", "PE13";
-		function = "io_disabled";
-		drive-strength = <20>;
-		bias-disable;
-	};
-
-	daudio1_pins_a: daudio1@0 {
-		pins = "PG11", "PG12", "PG13", "PG14", "PG15";
-		function = "i2s1";
-		drive-strength = <20>;
-		bias-disable;
-	};
-
-	daudio1_pins_b: daudio1_sleep@0 {
-		pins = "PG11", "PG12", "PG13", "PG14", "PG15";
-		function = "io_disabled";
-		drive-strength = <20>;
-		bias-disable;
-	};
-
-	daudio2_pins_a: daudio2@0 {
-		/* I2S_PIN: MCLK, BCLK, LRCK */
-		pins = "PF6", "PF3", "PF5";
-		function = "i2s2";
-		drive-strength = <20>;
-		bias-disable;
-	};
-
-	daudio2_pins_b: daudio2@1 {
-		/* I2S_PIN: DOUT0 */
-		pins = "PF1";
-		function = "i2s2_dout";
-		drive-strength = <20>;
-		bias-disable;
-	};
-
-	daudio2_pins_c: daudio2@2 {
-		/* I2S_PIN: DIN0 */
-		pins = "PF0";
-		function = "i2s2_din";
-		drive-strength = <20>;
-		bias-disable;
-	};
-
-	daudio2_pins_d: daudio2_sleep@0 {
-		pins = "PF6", "PF3", "PF5", "PF1", "PF0";
-		function = "io_disabled";
-		drive-strength = <20>;
-		bias-disable;
-	};
-
-	spdif_pins_a: spdif@0 {
-		/* SPDIF_PIN: SPDIF_OUT */
-		pins = "PG18";
-		function = "spdif";
-		drive-strength = <20>;
-		bias-disable;
-	};
-
-	spdif_pins_b: spdif_sleep@0 {
-		pins = "PG18";
-		function = "io_disabled";
-		drive-strength = <20>;
-		bias-disable;
 	};
 
 	spi0_pins_a: spi0@0 {
@@ -486,44 +369,32 @@
 		function = "gpio_out";
 	};
 
+	pwm5_pin_a: pwm5@0 {
+		pins = "PD21";
+		function = "pwm5";
+		drive-strength = <20>;
+		bias-pull-down;
+	};
+
+	pwm5_pin_b: pwm5@1 {
+		pins = "PD21";
+		function = "gpio_out";
+	};
+
 	pwm7_pin_a: pwm7@0 {
-		pins = "PB10";
+		pins = "PD22";
 		function = "pwm7";
 		drive-strength = <10>;
 		bias-pull-up;
 	};
 
 	pwm7_pin_b: pwm7@1 {
-		pins = "PB10";
-		function = "gpio_in";
-	};
-
-	s_cir0_pins_a: s_cir@0 {
-		pins = "PB7";
-		function = "ir";
-		drive-strength = <10>;
-		bias-pull-up;
-	};
-
-	s_cir0_pins_b: s_cir@1 {
-		pins = "PB7";
-		function = "gpio_in";
-	};
-
-	ir1_pins_a: ir1@0 {
-		pins = "PB0";
-		function = "ir";
-		drive-strength = <10>;
-		bias-pull-up;
-	};
-
-	ir1_pins_b: ir1@1 {
-		pins = "PB0";
+		pins = "PD22";
 		function = "gpio_in";
 	};
 
 	t_irq_a: t_irq-pins {
-		pins = "PD17";
+		pins = "PB12";
 		function = "gpio_in";
 	};
 };
@@ -537,10 +408,8 @@
 
 &uart1 {
 	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&uart1_pins_a>;
-	pinctrl-1 = <&uart1_pins_b>;
-	// pinctrl-0 = <&uart1_bt_pins_a>;
-	// pinctrl-1 = <&uart1_bt_pins_b>;
+	pinctrl-0 = <&uart1_bt_pins_a>;
+	pinctrl-1 = <&uart1_bt_pins_b>;
 	status = "okay";
 };
 
@@ -549,14 +418,6 @@
 	pinctrl-0 = <&uart2_pins_a>;
 	pinctrl-1 = <&uart2_pins_b>;
 	status = "okay";
-};
-
-&uart3 {
-	compatible = "allwinner,sun20iw1-dsp-uart";
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&uart3_pins_a>;
-	pinctrl-1 = <&uart3_pins_a>;
-	status = "disabled";
 };
 
 &soc {
@@ -628,16 +489,16 @@
 			/*bt_io_vol = <3300000>;*/
 			/*bt_power_vol = <330000>;*/
 			bt_rst_n      = <&pio PG 18 GPIO_ACTIVE_LOW>;
-			status        = "disabled";
+			status        = "okay";
 		};
 	};
 
 	btlpm: btlpm@0 {
-		compatible  = "allwinner,sunxi-btlpm";
+		compatible  = "realtek,rtl8723ds-bt";
 		uart_index  = <0x1>;
 		bt_wake     = <&pio PG 16 GPIO_ACTIVE_HIGH>;
 		bt_hostwake = <&pio PG 17 GPIO_ACTIVE_HIGH>;
-		status      = "disabled";
+		status      = "okay";
 	};
 
 	addr_mgt: addr_mgt@0 {
@@ -821,131 +682,6 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 	status = "okay";
 };
 
-&dummy_cpudai {
-	status = "okay";
-};
-
-&dmic {
-	pinctrl-names   = "default","sleep";
-	pinctrl-0       = <&dmic_pins_a>;
-	pinctrl-1       = <&dmic_pins_b>;
-	status = "disabled";
-};
-
-&dmic_codec {
-	status = "okay";
-};
-
-&sounddmic {
-	status = "okay";
-};
-
-/*-----------------------------------------------------------------------------
- * pcm_lrck_period	16/32/64/128/256
- * slot_width_select	16bits/20bits/24bits/32bits
- * frametype		0 --> short frame = 1 clock width;
- *			1 --> long frame = 2 clock width;
- * tdm_config		0 --> pcm
- *			1 --> i2s
- * mclk_div		0 --> not output
- *			1/2/4/6/8/12/16/24/32/48/64/96/128/176/192
- *			(set mclk as external codec clk source, freq is pll_audio/mclk_div)
- * pinctrl_used		0 --> I2S/PCM use for internal
- *			1 --> I2S/PCM use for external audio
- * daudio_type:		0 --> external audio type
- *---------------------------------------------------------------------------*/
-&daudio0 {
-	mclk_div 	= <0x01>;
-	frametype 	= <0x00>;
-	tdm_config 	= <0x01>;
-	sign_extend 	= <0x00>;
-	msb_lsb_first 	= <0x00>;
-	pcm_lrck_period = <0x80>;
-	slot_width_select = <0x20>;
-	pinctrl-names   = "default", "sleep";
-	pinctrl-0       = <&daudio0_pins_a>;
-	pinctrl-1       = <&daudio0_pins_b>;
-	pinctrl_used	= <0x0>;
-	status = "disabled";
-};
-
-/*-----------------------------------------------------------------------------
- * simple-audio-card,name	name of sound card, e.g.
- *				"snddaudio0" --> use for external audio
- * sound-dai			"snd-soc-dummy" --> use for I2S
- *				"ac108" --> use for external audio of ac108
- *---------------------------------------------------------------------------*/
-&sounddaudio0 {
-	/* simple-audio-card,format = "i2s"; */
-	/* simple-audio-card,frame-master = <&daudio0_master>; */
-	/* simple-audio-card,bitclock-master = <&daudio0_master>; */
-	/* simple-audio-card,bitclock-inversion; */
-	/* simple-audio-card,frame-inversion; */
-	status = "disabled";
-	daudio0_master: simple-audio-card,codec {
-		/* sound-dai = <&ac108>; */
-	};
-};
-
-&daudio1 {
-	mclk_div 	= <0x01>;
-	frametype 	= <0x00>;
-	tdm_config 	= <0x01>;
-	sign_extend 	= <0x00>;
-	msb_lsb_first 	= <0x00>;
-	pcm_lrck_period = <0x80>;
-	slot_width_select = <0x20>;
-	pinctrl-names   = "default", "sleep";
-	pinctrl-0       = <&daudio1_pins_a>;
-	pinctrl-1       = <&daudio1_pins_b>;
-	pinctrl_used	= <0x0>;
-	status = "disabled";
-};
-
-&sounddaudio1 {
-	status = "disabled";
-	daudio1_master: simple-audio-card,codec {
-		/* sound-dai = <&ac108>; */
-	};
-};
-
-&daudio2 {
-	mclk_div 	= <0x01>;
-	frametype 	= <0x00>;
-	tdm_config 	= <0x01>;
-	sign_extend 	= <0x00>;
-	tx_data_mode 	= <0x00>;
-	rx_data_mode 	= <0x00>;
-	msb_lsb_first 	= <0x00>;
-	pcm_lrck_period = <0x80>;
-	slot_width_select = <0x20>;
-	asrc_function_en  = <0x00>;
-	pinctrl-names   = "default", "sleep";
-	pinctrl-0       = <&daudio2_pins_a &daudio2_pins_b &daudio2_pins_c>;
-	pinctrl-1       = <&daudio2_pins_d>;
-	pinctrl_used	= <0x1>;
-	daudio_type	= <0x0>;
-	status = "disabled";
-};
-
-&sounddaudio2 {
-	status = "okay";
-	daudio2_master: simple-audio-card,codec {
-		/* sound-dai = <&ac108>; */
-	};
-};
-
-&spdif {
-	pinctrl-names   = "default","sleep";
-	pinctrl-0       = <&spdif_pins_a>;
-	pinctrl-1       = <&spdif_pins_b>;
-	status = "okay";
-};
-
-&soundspdif {
-	status = "okay";
-};
-
 /*
  *usb_port_type: usb mode. 0-device, 1-host, 2-otg.
  *usb_detect_type: usb hotplug detect mode. 0-none, 1-vbus/id detect, 2-id/dpdm detect.
@@ -994,22 +730,6 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 &ohci1 {
 	drvvbus-supply = <&reg_usb1_vbus>;
 	status = "okay";
-};
-
-&twi0 {
-	clock-frequency = <400000>;
-	pinctrl-0 = <&twi0_pins_a>;
-	pinctrl-1 = <&twi0_pins_b>;
-	pinctrl-names = "default", "sleep";
-	status = "disabled";
-};
-
-&twi1 {
-	clock-frequency = <400000>;
-	pinctrl-0 = <&twi1_pins_a>;
-	pinctrl-1 = <&twi1_pins_b>;
-	pinctrl-names = "default", "sleep";
-	status = "disabled";
 };
 
 &twi2 {
@@ -1075,16 +795,16 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 		reg = <0x68>;
 		status = "disabled";
 		interrupt-parent = <&pio>;
-		interrupts = <6 13 IRQ_TYPE_EDGE_RISING>; //PG13
+		interrupts = <PD 17 IRQ_TYPE_EDGE_RISING>; //PD17
 		orientation = <0xff 0 0 0 1 0 0 0 0xff>;
 	};
 
 	mpu9250: imu@68 {
 		compatible = "invensense,mpu9250";
 		reg = <0x68>;
-		status = "disabled";
+		status = "okay";
 		interrupt-parent = <&pio>;
-		interrupts = <6 13 IRQ_TYPE_EDGE_RISING>; //PG13
+		interrupts = <PD 17 IRQ_TYPE_EDGE_RISING>; //PD17
 		i2c-gate {
 			#address-cells = <1>;
 			#size-cells = <0>;
@@ -1105,7 +825,7 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 		compatible = "st,vl53l0x";
 		reg = <0x29>;
 		interrupt-parent = <&pio>;
-		interrupts = <1 4 IRQ_TYPE_EDGE_FALLING>; //PB4
+		interrupts = <PB 4 IRQ_TYPE_EDGE_FALLING>; //PB4
 		status = "okay";
 	};
 };
@@ -1157,7 +877,7 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 	pinctrl-1 = <&spi1_pins_c>;
 	pinctrl-names = "default", "sleep";
 	spi-num-chipselects = <2>;
-	cs-gpios = <&pio 3 10 GPIO_ACTIVE_HIGH>, <&pio 3 15 GPIO_ACTIVE_HIGH>;
+	cs-gpios = <&pio PD 10 GPIO_ACTIVE_HIGH>, <&pio PD 15 GPIO_ACTIVE_HIGH>;
 	status = "okay";
 
 	ili9341@0 {
@@ -1169,7 +889,7 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 		bgr;
 		fps = <30>;
 		buswidth = <8>;
-		dc-gpios = <&pio 1 2 GPIO_ACTIVE_HIGH>;//PB2
+		dc-gpios = <&pio PB 10 GPIO_ACTIVE_HIGH>; // PB10
 		debug = <0>;
 		backlight = <&backlight>;
 	};
@@ -1180,9 +900,9 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 		pinctrl-names = "default";
 		pinctrl-0 = <&t_irq_a>;
 		interrupt-parent = <&pio>;
-		interrupts = <3 17 IRQ_TYPE_EDGE_FALLING>;	//PD17
+		interrupts = <PB 12 IRQ_TYPE_EDGE_FALLING>;
 		spi-max-frequency = <1000000>;
-		pendown-gpio = <&pio 3 17 GPIO_ACTIVE_HIGH>;
+		pendown-gpio = <&pio PB 12 GPIO_ACTIVE_HIGH>; // PB12
 		ti,x-min = /bits/ 16 <0>;
 		ti,x-max = /bits/ 16 <320>;
 		ti,y-min = /bits/ 16 <0>;
@@ -1217,35 +937,6 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 	status = "disabled";
 };
 
-/*----------------------------------------------------------------------------------
-disp init configuration
-
-disp_mode             (0:screen0<screen0,fb0>)
-screenx_output_type   (0:none; 1:lcd; 2:tv; 5:vdpo)
-fbx format            (4:RGB655 5:RGB565 6:RGB556 7:ARGB1555 8:RGBA5551 9:RGB888 10:ARGB8888 12:ARGB4444)
-fbx pixel sequence    (0:ARGB 1:BGRA 2:ABGR 3:RGBA)
-fb0_scaler_mode_enable(scaler mode enable, used FE)
-fbx_width,fbx_height  (framebuffer horizontal/vertical pixels, fix to output resolution while equal 0)
-lcdx_backlight        (lcd init backlight,the range:[0,256],default:197
-lcdx_yy               (lcd init screen bright/contrast/saturation/hue, value:0~100, default:50/50/57/50)
-lcd0_contrast         (LCD contrast, 0~100)
-lcd0_saturation       (LCD saturation, 0~100)
-lcd0_hue              (LCD hue, 0~100)
-framebuffer software rotation setting:
-disp_rotation_used:   (0:disable; 1:enable,you must set fbX_width to lcd_y,
-set fbX_height to lcd_x)
-degreeX:              (X:screen index; 0:0 degree; 1:90 degree; 3:270 degree)
-degreeX_Y:            (X:screen index; Y:layer index 0~15; 0:0 degree; 1:90 degree; 3:270 degree)
-devX_output_type : config output type in bootGUI framework in UBOOT-2018.
-				   (0:none; 1:lcd; 2:tv;)
-devX_output_mode : config output resolution(see include/video/sunxi_display2.h) of bootGUI framework in UBOOT-2018
-devX_screen_id   : config display index of bootGUI framework in UBOOT-2018
-devX_do_hpd      : whether do hpd detectation or not in UBOOT-2018
-chn_cfg_mode     : Hardware DE channel allocation config. 0:single display with 6
-				   channel, 1:dual display with 4 channel in main display and 2 channel in second
-                   display, 2:dual display with 3 channel in main display and 3 channel in second
-                   in display.
-----------------------------------------------------------------------------------*/
 &disp {
 	disp_init_enable         = <1>;
 	disp_mode                = <0>;
@@ -1424,6 +1115,13 @@ pull up or pull down(default 0), driver level(default 1), data>
 	status = "okay";
 };
 
+&pwm5 {
+	pinctrl-names = "active", "sleep";
+	pinctrl-0 = <&pwm5_pin_a>;
+	pinctrl-1 = <&pwm5_pin_b>;
+	status = "okay";
+};
+
 &pwm7 {
 	pinctrl-names = "active", "sleep";
 	pinctrl-0 = <&pwm7_pin_a>;
@@ -1472,22 +1170,6 @@ pull up or pull down(default 0), driver level(default 1), data>
 	key4_val = <28>;
 	status = "okay";
 	wakeup-source;
-};
-
-&s_cir0 {
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&s_cir0_pins_a>;
-	pinctrl-1 = <&s_cir0_pins_b>;
-	ir_protocol_used		= <0>;
-	ir_addr_code0			= <0x0>;
-	status = "disabled";
-};
-
-&ir1 {
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&ir1_pins_a>;
-	pinctrl-1 = <&ir1_pins_b>;
-	status = "disabled";
 };
 
 &rtc {
