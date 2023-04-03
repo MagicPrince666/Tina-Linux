@@ -128,7 +128,6 @@
 		bias-pull-up;
 	};
 
-
 	sdc1_pins_a: sdc1@0 {
 		pins = "PG0", "PG1", "PG2",
 		       "PG3", "PG4", "PG5";
@@ -488,7 +487,7 @@
 			/*bt_io_regulator = "axp803-dldo1";*/
 			/*bt_io_vol = <3300000>;*/
 			/*bt_power_vol = <330000>;*/
-			bt_rst_n      = <&pio PG 18 GPIO_ACTIVE_LOW>;
+			bt_rst_n      = <&pio PG 15 GPIO_ACTIVE_LOW>;
 			status        = "okay";
 		};
 	};
@@ -496,8 +495,8 @@
 	btlpm: btlpm@0 {
 		compatible  = "realtek,rtl8723ds-bt";
 		uart_index  = <0x1>;
-		bt_wake     = <&pio PG 16 GPIO_ACTIVE_HIGH>;
-		bt_hostwake = <&pio PG 17 GPIO_ACTIVE_HIGH>;
+		bt_wake     = <&pio PG 14 GPIO_ACTIVE_HIGH>;
+		bt_hostwake = <&pio PG 18 GPIO_ACTIVE_HIGH>;
 		status      = "okay";
 	};
 
@@ -876,6 +875,9 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 	pinctrl-0 = <&spi1_pins_a &spi1_pins_b>;
 	pinctrl-1 = <&spi1_pins_c>;
 	pinctrl-names = "default", "sleep";
+	spi_slave_mode = <0>;
+	spi1_cs_number = <2>;
+	spi1_cs_bitmap = <0x3>;
 	spi-num-chipselects = <2>;
 	cs-gpios = <&pio PD 10 GPIO_ACTIVE_HIGH>, <&pio PD 15 GPIO_ACTIVE_HIGH>;
 	status = "okay";
