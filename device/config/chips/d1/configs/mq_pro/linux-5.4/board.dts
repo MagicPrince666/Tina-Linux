@@ -65,18 +65,18 @@
 		};
 	};
 
-	rotary1: rotary-encoder {
+	rotary@0 {
 		compatible = "rotary-encoder";
-		gpios = <&pio PD 14 GPIO_ACTIVE_HIGH>, <&pio PB 2 GPIO_ACTIVE_HIGH>; //PD14 PB2
-		linux,axis = <0>; /* REL_X */
+		gpios = <&pio PB 4 GPIO_ACTIVE_HIGH>, <&pio PB 3 GPIO_ACTIVE_HIGH>; //PB3 PB4
+		linux,axis = <REL_X>; /* REL_X */
 		rotary-encoder,encoding = "gray";
 		rotary-encoder,relative-axis;
 	};
 
-	rotary2: rotary-encoder {
+	rotary@1 {
 		compatible = "rotary-encoder";
-		gpios = <&pio PB 3 GPIO_ACTIVE_HIGH>, <&pio PB 4 GPIO_ACTIVE_HIGH>; //PB3 PB4
-		linux,axis = <1>; /* REL_Y */
+		gpios = <&pio PB 2 GPIO_ACTIVE_HIGH>, <&pio PD 14 GPIO_ACTIVE_HIGH>; //PD14 PB2
+		linux,axis = <REL_Y>; /* REL_Y */
 		rotary-encoder,encoding = "gray";
 		rotary-encoder,relative-axis;
 	};
