@@ -9,6 +9,7 @@
 #include "sun20iw1p1.dtsi"
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/pwm/pwm.h>
+#include <dt-bindings/gpio/gpio.h>
 
 /{
 	compatible = "allwinner,d1", "arm,sun20iw1p1", "allwinner,sun20iw1p1";
@@ -29,8 +30,9 @@
 		status = "disabled";
 	};
 
-	gpio-leds {
+	leds {
 		compatible = "gpio-leds";
+		status = "okay";
 
 		pwr {
 			label = "allwinner:pwr";
@@ -38,25 +40,25 @@
 			linux,default-trigger = "heartbeat";
 		};
 
-		m1ena {
+		m1-ena {
 			label = "m1ena";
 			gpios = <&pio PB 8 GPIO_ACTIVE_HIGH>; // PB7
 			default-state = "on";
 		};
 
-		m1enb {
+		m1-enb {
 			label = "m1enb";
 			gpios = <&pio PD 21 GPIO_ACTIVE_HIGH>; // PD21
 			default-state = "on";
 		};
 
-		m2ena {
+		m2-ena {
 			label = "m2ena";
 			gpios = <&pio PG 13 GPIO_ACTIVE_HIGH>; // PG13
 			default-state = "on";
 		};
 
-		m2enb {
+		m2-enb {
 			label = "m2enb";
 			gpios = <&pio PG 12 GPIO_ACTIVE_HIGH>; // PG12
 			default-state = "on";
