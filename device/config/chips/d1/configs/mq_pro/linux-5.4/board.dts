@@ -825,7 +825,7 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 	mpu9250: imu@68 {
 		compatible = "invensense,mpu9250";
 		reg = <0x68>;
-		status = "okay";
+		status = "disabled";
 		interrupt-parent = <&pio>;
 		interrupts = <PD 17 IRQ_TYPE_EDGE_RISING>; //PD17
 		i2c-gate {
@@ -848,8 +848,8 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 		compatible = "st,vl53l0x";
 		reg = <0x29>;
 		interrupt-parent = <&pio>;
-		interrupts = <PB 4 IRQ_TYPE_EDGE_FALLING>; //PB4
-		status = "okay";
+		interrupts = <PB 4 IRQ_TYPE_EDGE_FALLING>; // PB4
+		status = "disabled";
 	};
 };
 
