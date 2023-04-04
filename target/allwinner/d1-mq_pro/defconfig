@@ -2873,7 +2873,7 @@ CONFIG_TSLIB_ENABLE_variance=y
 CONFIG_PACKAGE_uclibcxx=y
 # CONFIG_PACKAGE_uriparser is not set
 # CONFIG_PACKAGE_uvoice is not set
-# CONFIG_PACKAGE_x264 is not set
+CONFIG_PACKAGE_x264=y
 # CONFIG_PACKAGE_xkeyboard-config is not set
 # CONFIG_PACKAGE_yaml-cpp is not set
 CONFIG_PACKAGE_zlib=y
@@ -3606,6 +3606,11 @@ CONFIG_PACKAGE_resize2fs=y
 # CONFIG_PACKAGE_xfs-fsck is not set
 # CONFIG_PACKAGE_xfs-growfs is not set
 # CONFIG_PACKAGE_xfs-mkfs is not set
+
+#
+# Prince
+#
+# CONFIG_PACKAGE_linuxcar is not set
 
 #
 # Shells
