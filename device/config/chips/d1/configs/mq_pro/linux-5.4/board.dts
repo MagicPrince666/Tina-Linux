@@ -75,7 +75,7 @@
 
 	rotary@1 {
 		compatible = "rotary-encoder";
-		gpios = <&pio PB 2 GPIO_ACTIVE_HIGH>, <&pio PD 14 GPIO_ACTIVE_HIGH>; //PD14 PB2
+		gpios = <&pio PD 14 GPIO_ACTIVE_HIGH>, <&pio PB 2 GPIO_ACTIVE_HIGH>; //PD14 PB2
 		linux,axis = <REL_Y>; /* REL_Y */
 		rotary-encoder,encoding = "gray";
 		rotary-encoder,relative-axis;
