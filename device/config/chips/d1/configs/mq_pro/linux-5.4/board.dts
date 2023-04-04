@@ -29,6 +29,40 @@
 		status = "disabled";
 	};
 
+	gpio-leds {
+		compatible = "gpio-leds";
+
+		pwr {
+			label = "allwinner:pwr";
+			gpios = <&pio PD 18 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "heartbeat";
+		};
+
+		m1ena {
+			label = "m1ena";
+			gpios = <&pio PB 8 GPIO_ACTIVE_HIGH>; // PB7
+			default-state = "on";
+		};
+
+		m1enb {
+			label = "m1enb";
+			gpios = <&pio PD 21 GPIO_ACTIVE_HIGH>; // PD21
+			default-state = "on";
+		};
+
+		m2ena {
+			label = "m2ena";
+			gpios = <&pio PG 13 GPIO_ACTIVE_HIGH>; // PG13
+			default-state = "on";
+		};
+
+		m2enb {
+			label = "m2enb";
+			gpios = <&pio PG 12 GPIO_ACTIVE_HIGH>; // PG12
+			default-state = "on";
+		};
+	};
+
 	rotary1: rotary-encoder {
 		compatible = "rotary-encoder";
 		gpios = <&pio PD 14 GPIO_ACTIVE_HIGH>, <&pio PB 2 GPIO_ACTIVE_HIGH>; //PD14 PB2
@@ -188,18 +222,6 @@
 
 	uart1_bt_pins_b: uart1_pins {  /* For MQ pro board */
 		pins = "PG6", "PG7", "PG8", "PG9";
-		function = "gpio_in";
-	};
-
-	uart1_pins_a: uart1_pins@0 {  /* For MQ pro board */
-		pins = "PD21", "PD22";
-		function = "uart1";
-		drive-strength = <10>;
-		bias-pull-up;
-	};
-
-	uart1_pins_b: uart1_pins {  /* For MQ pro board */
-		pins = "PD21", "PD22";
 		function = "gpio_in";
 	};
 
@@ -872,7 +894,8 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 };
 
 &spi1 {
-	pinctrl-0 = <&spi1_pins_a &spi1_pins_b>;
+	pinctrl-0 = <&spi1_pins_a>;
+	// pinctrl-0 = <&spi1_pins_a &spi1_pins_b>;
 	pinctrl-1 = <&spi1_pins_c>;
 	pinctrl-names = "default", "sleep";
 	spi_slave_mode = <0>;
@@ -899,8 +922,8 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 	tsc2046@1 {
 		reg = <1>;	/* CS1 */
 		compatible = "ti,tsc2046";
-		pinctrl-names = "default";
-		pinctrl-0 = <&t_irq_a>;
+		// pinctrl-names = "default";
+		// pinctrl-0 = <&t_irq_a>;
 		interrupt-parent = <&pio>;
 		interrupts = <PB 12 IRQ_TYPE_EDGE_FALLING>;
 		spi-max-frequency = <1000000>;
@@ -1086,14 +1109,14 @@ pull up or pull down(default 0), driver level(default 1), data>
 	pinctrl-names = "active", "sleep";
 	pinctrl-0 = <&pwm0_pin_a>;
 	pinctrl-1 = <&pwm0_pin_b>;
-	status = "disabled";
+	status = "okay";
 };
 
 &pwm1 {
 	pinctrl-names = "active", "sleep";
 	pinctrl-0 = <&pwm1_pin_a>;
 	pinctrl-1 = <&pwm1_pin_b>;
-	status = "disabled";
+	status = "okay";
 };
 
 &pwm2 {
@@ -1118,10 +1141,10 @@ pull up or pull down(default 0), driver level(default 1), data>
 };
 
 &pwm5 {
-	pinctrl-names = "active", "sleep";
-	pinctrl-0 = <&pwm5_pin_a>;
-	pinctrl-1 = <&pwm5_pin_b>;
-	status = "okay";
+	// pinctrl-names = "active", "sleep";
+	// pinctrl-0 = <&pwm5_pin_a>;
+	// pinctrl-1 = <&pwm5_pin_b>;
+	status = "disabled";
 };
 
 &pwm7 {
