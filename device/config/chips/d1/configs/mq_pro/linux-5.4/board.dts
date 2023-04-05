@@ -32,6 +32,8 @@
 
 	leds {
 		compatible = "gpio-leds";
+		pinctrl-names = "default";
+		pinctrl-0 = <&led_pins_a>;
 		status = "okay";
 
 		pwr {
@@ -42,7 +44,7 @@
 
 		m1-ena {
 			label = "m1ena";
-			gpios = <&pio PB 8 GPIO_ACTIVE_HIGH>; // PB7
+			gpios = <&pio PB 7 GPIO_ACTIVE_HIGH>; // PB7
 			default-state = "on";
 		};
 
@@ -67,7 +69,7 @@
 
 	rotary@0 {
 		compatible = "rotary-encoder";
-		gpios = <&pio PB 4 GPIO_ACTIVE_HIGH>, <&pio PB 3 GPIO_ACTIVE_HIGH>; //PB3 PB4
+		gpios = <&pio PB 3 GPIO_ACTIVE_HIGH>, <&pio PB 4 GPIO_ACTIVE_HIGH>; //PB3 PB4
 		linux,axis = <REL_X>; /* REL_X */
 		rotary-encoder,encoding = "gray";
 		rotary-encoder,relative-axis;
@@ -75,7 +77,7 @@
 
 	rotary@1 {
 		compatible = "rotary-encoder";
-		gpios = <&pio PD 14 GPIO_ACTIVE_HIGH>, <&pio PB 2 GPIO_ACTIVE_HIGH>; //PD14 PB2
+		gpios = <&pio PB 2 GPIO_ACTIVE_HIGH>, <&pio PD 14 GPIO_ACTIVE_HIGH>; //PD14 PB2
 		linux,axis = <REL_Y>; /* REL_Y */
 		rotary-encoder,encoding = "gray";
 		rotary-encoder,relative-axis;
@@ -419,6 +421,13 @@
 	t_irq_a: t_irq-pins {
 		pins = "PB12";
 		function = "gpio_in";
+	};
+
+	led_pins_a: led-pins {
+		pins = "PD18", "PB7", "PD21", "PG13", "PG12";
+		function = "gpio_out";
+		drive-strength = <10>;
+		bias-pull-up;
 	};
 };
 
