@@ -34,14 +34,14 @@
 		// pinctrl-names = "default";
 		// pinctrl-0 = <&moto_pins>;
 
-		rpwm {
-			label = "rpwm";
+		moto-ena {
+			label = "moto-ena";
 			gpios = <&pio PB 5 GPIO_ACTIVE_HIGH>; // PB5
 			default-state = "on";
 		};
 
-		lpwm {
-			label = "lpwm";
+		moto-enb {
+			label = "moto-enb";
 			gpios = <&pio PD 14 GPIO_ACTIVE_HIGH>; // PD14
 			default-state = "on";
 		};
