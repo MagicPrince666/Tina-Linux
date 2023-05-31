@@ -88,7 +88,7 @@
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
 		regulator-enable-ramp-delay = <1000>;
-		gpio = <&pio PB 10 GPIO_ACTIVE_HIGH>;
+		// gpio = <&pio PB 10 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
 	};
 };
@@ -309,17 +309,6 @@
 		pins = "PD10", "PD11", "PD12", "PD13", "PD15";
 		function = "gpio_in";
 		drive-strength = <10>;
-	};
-
-	ledc_pins_a: ledc@0 {
-		pins = "PC0";
-		function = "ledc";
-		drive-strength = <10>;
-	};
-
-	ledc_pins_b: ledc@1 {
-		pins = "PC0";
-		function = "gpio_in";
 	};
 
 	pwm2_pin_a: pwm2@0 {
@@ -557,74 +546,9 @@
 	status = "okay";
 };
 
-&tvd {
-	tvd_sw          = <1>;
-	tvd_interface   = <0>;
-	tvd_format      = <0>;
-	tvd_system      = <1>;
-	tvd_row         = <1>;
-	tvd_column      = <1>;
-	tvd_channel0_en = <1>;
-	tvd_channel1_en = <0>;
-	tvd_channel2_en = <0>;
-	tvd_channel3_en = <0>;
-	/*tvd_gpio0 = <&pio PD 22 GPIO_ACTIVE_HIGH>;*/
-	/*tvd_gpio1 = <&pio PD 23 GPIO_ACTIVE_HIGH>;*/
-	/*tvd_gpio2 = <&pio PD 24 GPIO_ACTIVE_HIGH>;*/
-	/*	dc1sw-supply = <&reg_dc1sw>;*/
-	/*	eldo3-supply = <&reg_eldo3>;*/
-	/*tvd_power0      = "dc1sw"*/
-	/*tvd_power1      = "eldo3"*/
-};
-
-&tvd0 {
-	used                    = <1>;
-	agc_auto_enable         = <1>;
-	agc_manual_value        = <64>;
-	cagc_enable             = <1>;
-	fliter_used             = <1>;
-};
-
 /* Audio Driver modules */
 &sunxi_rpaf_dsp0 {
 	status = "disabled";
-};
-
-/* if audiocodec is used, sdc0 and uart0 should be closed to enable PA. */
-&codec {
-	/* MIC and headphone gain setting */
-	mic1gain 	= <0x1F>;
-	mic2gain 	= <0x1F>;
-	mic3gain 	= <0x1F>;
-	/* ADC/DAC DRC/HPF func enabled */
-        /* 0x1:DAP_HP_EN; 0x2:DAP_SPK_EN; 0x3:DAP_HPSPK_EN */
-	adcdrc_cfg 	= <0x0>;
-	adchpf_cfg 	= <0x1>;
-	dacdrc_cfg 	= <0x0>;
-	dachpf_cfg 	= <0x0>;
-	/* Volume about */
-	digital_vol 	= <0x00>;
-	lineout_vol 	= <0x1a>;
-	headphonegain	= <0x03>;
-	/* Pa enabled about */
-	pa_level 	= <0x01>;
-	pa_pwr_level 	= <0x01>;
-	pa_msleep_time 	= <0x78>;
-	/* gpio-spk	= <&pio PF 2 GPIO_ACTIVE_HIGH>;*/
-	/* gpio-spk-pwr	= <&pio PF 4 GPIO_ACTIVE_HIGH>; */
-	/* CMA config about */
-	playback_cma	= <128>;
-	capture_cma	= <256>;
-	/* regulator about */
-	/* avcc-supply	= <&reg_aldo1>; */
-	/* hpvcc-supply	= <&reg_eldo1>; */
-	status = "okay";
-};
-
-&sndcodec {
-	hp_detect_case	= <0x00>;
-	jack_enable	= <0x01>;
-	status = "okay";
 };
 
 &usbc0 {
@@ -667,57 +591,6 @@
 &ohci1 {
 	drvvbus-supply = <&reg_usb1_vbus>;
 	status = "okay";
-};
-
-&twi2 {
-	clock-frequency = <400000>;
-	pinctrl-0 = <&twi2_pins_a>;
-	pinctrl-1 = <&twi2_pins_b>;
-	pinctrl-names = "default", "sleep";
-	dmas = <&dma 45>, <&dma 45>;
-	dma-names = "tx", "rx";
-	status = "okay";
-
-	/* pcf8574-usage:
-	 * only use gpio0~7, 0 means PP0.
-	 * pin set:
-	 * gpios = <&pcf8574 0 GPIO_ACTIVE_LOW>;
-	 * interrupt set:
-	 * interrupt-parent = <&pcf8574>;
-	 * interrupts = <0 IRQ_TYPE_EDGE_FALLING>;
-	 */
-	pcf8574: gpio@38 {
-		compatible = "nxp,pcf8574";
-		reg = <0x38>;
-		gpio_base = <2020>;
-		gpio-controller;
-		#gpio-cells = <2>;
-		interrupt-controller;
-		#interrupt-cells = <2>;
-		interrupt-parent = <&pio>;
-		interrupts = <PB 2 IRQ_TYPE_EDGE_FALLING>;
-		status = "disabled";
-	};
-
-	ctp@14 {
-                compatible = "allwinner,goodix";
-                device_type = "ctp";
-                reg = <0x14>;
-                status = "okay";
-                ctp_name = "gt9xxnew_ts";
-                ctp_twi_id = <0x2>;
-                ctp_twi_addr = <0x14>;
-                ctp_screen_max_x = <0x320>;
-                ctp_screen_max_y = <0x1e0>;
-                ctp_revert_x_flag = <0x0>;
-                ctp_revert_y_flag = <0x0>;
-                ctp_exchange_x_y_flag = <0x0>;
-                ctp_int_port = <&pio PE 10 GPIO_ACTIVE_HIGH>;
-                ctp_wakeup = <&pio PE 11 GPIO_ACTIVE_HIGH>;
-                /*ctp-supply = <&reg_aldo2>;*/
-                /*ctp_power_ldo = <&reg_aldo2>;*/
-                /*ctp_power_ldo_vol = <3300>;*/
-	};
 };
 
 &twi3 {
@@ -836,8 +709,8 @@
 	tsc2046@1 {
 		reg = <1>;	/* CS1 */
 		compatible = "ti,tsc2046";
-		pinctrl-names = "default";
-		pinctrl-0 = <&t_irq_a>;
+		// pinctrl-names = "default";
+		// pinctrl-0 = <&t_irq_a>;
 		interrupt-parent = <&pio>;
 		interrupts = <PD 17 IRQ_TYPE_EDGE_FALLING>;	//PD17
 		spi-max-frequency = <1000000>;
@@ -851,29 +724,6 @@
 		wakeup-source;
 		status = "okay";
 	};
-};
-
-&ledc {
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&ledc_pins_a>;
-	pinctrl-1 = <&ledc_pins_b>;
-	led_count = <12>;
-	output_mode = "GRB";
-	reset_ns = <84>;
-	t1h_ns = <800>;
-	t1l_ns = <320>;
-	t0h_ns = <300>;
-	t0l_ns = <800>;
-	wait_time0_ns = <84>;
-	wait_time1_ns = <84>;
-	wait_data_time_ns = <600000>;
-	status	= "disabled";
-};
-
-&keyboard0 {
-	key0 = <210 0x160>;
-	wakeup-source;
-	status = "disabled";
 };
 
 &disp {
@@ -925,42 +775,6 @@
 /*	dcdc1-supply = <&reg_dcdc1>;*/
 };
 
-
-&lcd0 {
-	lcd_used            = <1>;
-	lcd_driver_name     = "default_lcd";
-	lcd_backlight       = <50>;
-	lcd_if              = <0>;
-	lcd_x               = <800>;
-	lcd_y               = <480>;
-	lcd_width           = <150>;
-	lcd_height          = <94>;
-	lcd_dclk_freq       = <48>;
-	lcd_pwm_used        = <1>;
-	lcd_pwm_ch          = <7>;
-	lcd_pwm_freq        = <500>;
-	lcd_pwm_pol         = <0>;
-	lcd_hbp             = <55>;
-	lcd_ht              = <1240>;
-	lcd_hspw            = <20>;
-	lcd_vbp             = <35>;
-	lcd_vt              = <650>;
-	lcd_vspw            = <10>;
-	lcd_lvds_if         = <0>;
-	lcd_lvds_colordepth = <1>;
-	lcd_lvds_mode       = <0>;
-	lcd_frm             = <0>;
-	lcd_io_phase        = <0x0000>;
-	lcd_gamma_en        = <0>;
-	lcd_bright_curve_en = <0>;
-	lcd_cmap_en         = <0>;
-	deu_mode            = <0>;
-	lcdgamma4iep        = <22>;
-	smart_color         = <90>;
-	pinctrl-0 = <&rgb18_pins_a>;
-	pinctrl-1 = <&rgb18_pins_b>;
-};
-
 &pwm2 {
 	pinctrl-names = "active", "sleep";
 	pinctrl-0 = <&pwm2_pin_a>;
@@ -987,49 +801,6 @@
 	pinctrl-0 = <&pwm7_pin_a>;
 	pinctrl-1 = <&pwm7_pin_b>;
 	status = "okay";
-};
-
-&rtp {
-	allwinner,tp-sensitive-adjust = <0xf>;
-	allwinner,filter-type = <0x1>;
-	allwinner,ts-attached;
-	status = "disabled";
-};
-
-&tpadc {
-	key_cnt = <5>;
-	key1 = <420 115>;
-	key2 = <870 114>;
-	key3 = <1290 119>;
-	key4 = <1630 373>;
-	key5 = <1950 28>;
-	status = "disabled";
-};
-
-&gpadc {
-	channel_num = <1>;
-	channel_select = <0x01>;
-	channel_data_select = <0>;
-	channel_compare_select = <0x01>;
-	channel_cld_select = <0x01>;
-	channel_chd_select = <0>;
-	channel0_compare_lowdata = <1600000>;
-	channel0_compare_higdata = <1200000>;
-	channel1_compare_lowdata = <460000>;
-	channel1_compare_higdata = <1200000>;
-	key_cnt = <5>;
-	key0_vol = <255>;
-	key0_val = <115>;
-	key1_vol = <480>;
-	key1_val = <114>;
-	key2_vol = <670>;
-	key2_val = <412>;
-	key3_vol = <820>;
-	key3_val = <407>;
-	key4_vol = <900>;
-	key4_val = <28>;
-	status = "okay";
-	wakeup-source;
 };
 
 &rtc {
